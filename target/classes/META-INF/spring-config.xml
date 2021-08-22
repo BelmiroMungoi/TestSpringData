@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context-spring-context-3.0.xsd
+        http://www.springframework.org/schema/data/jpa
+        http://www.springframework.org/schema/data/jpa/spring-jpa-3.0.xsd"
+	default-lazy-init="true">
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.bbm.testspringdata.model" />
+
+	<!-- Define a conexao com a base de dados -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/traininghibernate" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+
+	<!-- Define as configuracoes do JPA -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		scope="singleton">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="database" value="MYSQL" /><!-- Define o tipo 
+					que bd que sera usado -->
+				<property name="generateDdl" value="true" /> <!-- Para gerar as tabelas na bd -->
+			</bean>
+		</property>
+		<property name="persistenceUnitName" value="TestSpringData" />
+	</bean>
+
+	<!-- Ativa o controle transacional(commits/rollbacks ,etc) -->
+	<bean id="transactionalManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager"
+		scope="singleton">
+		<property name="entityManagerFactory"
+			ref="entityManagerFactory" />
+	</bean>
+
+	<jpa:repositories
+		base-package="com.bbm.testspringdata.dao" />
+</beans>
