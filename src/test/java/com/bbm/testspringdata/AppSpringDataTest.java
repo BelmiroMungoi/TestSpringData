@@ -1,5 +1,6 @@
 package com.bbm.testspringdata;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -21,47 +22,75 @@ public class AppSpringDataTest {
 	@Test
 	public void testSave() {
 		Usuario usuario = new Usuario();
-		
-		usuario.setUsername("Juniioor");
+
+		usuario.setUsername("Belmiro Mungoi");
 		usuario.setPassword("hellor");
-		usuario.setEmail("heloo@adsad.com");
+		usuario.setEmail("mungoi@adsad.com");
 		usuario.setIdade(20);
-		
+
 		repository.save(usuario);
 	}
-	
+
 	@Test
 	public void testFindById() {
 		Optional<Usuario> usuario = repository.findById(2L);
-		
+
 		System.out.println(usuario.get().toString());
 	}
-	
+
 	@Test
 	public void testFindAll() {
 		Iterable<Usuario> userList = repository.findAll();
-		
+
 		for (Usuario usuario : userList) {
+			System.out.println(usuario.toString());
+			System.out.println("-----------------------------------------------");
+		}
+	}
+
+	@Test
+	public void testUpdate() {
+		Optional<Usuario> usuario = repository.findById(1L);
+		Usuario user = usuario.get();
+
+		user.setUsername("BemiasSilvaJunior");
+
+		repository.save(user);
+	}
+
+	@Test
+	public void testDelete() {
+		Optional<Usuario> usuario = repository.findById(5L);
+
+		repository.delete(usuario.get());
+		// repository.deleteById(3L);
+	}
+
+	@Test
+	public void testFindByName() {
+		List<Usuario> list = repository.findByName("Belmiro");
+
+		for (Usuario usuario : list) {
 			System.out.println(usuario.toString());
 			System.out.println("-----------------------------------------------");
 		}
 	}
 	
 	@Test
-	public void testUpdate() {
-		Optional<Usuario> usuario = repository.findById(1L);
-		Usuario user = usuario.get();
+	public void testFindByParam() {
+		Usuario usuario = repository.findByNameParam("Belmiro");
 		
-		user.setUsername("BemiasSilvaJunior");
-		
-		repository.save(user);
+		System.out.println(usuario.toString());
+		System.out.println("--------------------------------------------------");
 	}
 	
 	@Test
-	public void testDelete() {
-		Optional<Usuario> usuario = repository.findById(5L);
-
-		repository.delete(usuario.get());
-		//repository.deleteById(3L);
+	public void testDeleteByName() {
+		repository.deleteByName("Belmiro");
+	}
+	
+	@Test
+	public void testUpdateByName() {
+		repository.updateByName("junior@gmail.com", "Juniioor");
 	}
 }
