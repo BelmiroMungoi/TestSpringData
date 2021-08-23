@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bbm.testspringdata.dao.TelefoneRepository;
 import com.bbm.testspringdata.dao.UsuarioRepository;
+import com.bbm.testspringdata.model.Telefone;
 import com.bbm.testspringdata.model.Usuario;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -19,14 +21,17 @@ public class AppSpringDataTest {
 	@Autowired
 	private UsuarioRepository repository;
 
+	@Autowired
+	private TelefoneRepository telefoneRepository;
+
 	@Test
 	public void testSave() {
 		Usuario usuario = new Usuario();
 
-		usuario.setUsername("Belmiro Mungoi");
-		usuario.setPassword("hellor");
-		usuario.setEmail("mungoi@adsad.com");
-		usuario.setIdade(20);
+		usuario.setUsername("Seila Mungoi");
+		usuario.setPassword("osvasa");
+		usuario.setEmail("seila@adsad.com");
+		usuario.setIdade(29);
 
 		repository.save(usuario);
 	}
@@ -75,22 +80,51 @@ public class AppSpringDataTest {
 			System.out.println("-----------------------------------------------");
 		}
 	}
-	
+
 	@Test
 	public void testFindByParam() {
 		Usuario usuario = repository.findByNameParam("Belmiro");
-		
+
 		System.out.println(usuario.toString());
 		System.out.println("--------------------------------------------------");
 	}
-	
+
 	@Test
 	public void testDeleteByName() {
 		repository.deleteByName("Belmiro");
 	}
-	
+
 	@Test
 	public void testUpdateByName() {
 		repository.updateByName("junior@gmail.com", "Juniioor");
+	}
+
+	@Test
+	public void testSavePhone() {
+		Optional<Usuario> usuario = repository.findById(1L);
+
+		Telefone telefone = new Telefone();
+		telefone.setPhoneType("Home and Work");
+		telefone.setPhoneNumber("21231");
+		telefone.setUsuario(usuario.get());
+
+		telefoneRepository.save(telefone);
+	}
+	
+	@Test
+	public void testFindPhoneById() {
+		Optional<Telefone> telefone = telefoneRepository.findById(2L);
+		
+		System.out.println(telefone.get());
+	}
+	
+	@Test
+	public void testFindAllPhone() {
+		Iterable<Telefone> telefones = telefoneRepository.findAll();
+		
+		for (Telefone telefone : telefones) {
+			System.out.println(telefone.toString());
+			System.out.println("----------------------------------------------");
+		}
 	}
 }
