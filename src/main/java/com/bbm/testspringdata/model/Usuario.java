@@ -56,4 +56,10 @@ public class Usuario {
 		this.idade = idade;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", idade=" + idade + "]";
+	}
+
 }
