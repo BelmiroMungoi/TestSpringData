@@ -2,6 +2,9 @@ package com.bbm.testspringdata.dao;
 
 import java.util.List;
 
+import javax.persistence.LockModeType;
+
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -14,9 +17,11 @@ import com.bbm.testspringdata.model.Usuario;
 @Repository
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 
+	@Lock(LockModeType.READ)
 	@Query(value = "select p from Usuario p where p.username like %?1%")
 	public List<Usuario> findByName(String name);
 	
+	@Lock(LockModeType.READ)
 	@Query(value = "select p from Usuario p where p.username =:paramNome")
 	public Usuario findByNameParam(@Param("paramNome") String paramNome);
 	
