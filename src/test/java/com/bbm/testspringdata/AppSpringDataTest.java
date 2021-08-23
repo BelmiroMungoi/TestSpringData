@@ -1,5 +1,7 @@
 package com.bbm.testspringdata;
 
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +28,40 @@ public class AppSpringDataTest {
 		usuario.setIdade(20);
 		
 		repository.save(usuario);
+	}
+	
+	@Test
+	public void testFindById() {
+		Optional<Usuario> usuario = repository.findById(2L);
+		
+		System.out.println(usuario.get().toString());
+	}
+	
+	@Test
+	public void testFindAll() {
+		Iterable<Usuario> userList = repository.findAll();
+		
+		for (Usuario usuario : userList) {
+			System.out.println(usuario.toString());
+			System.out.println("-----------------------------------------------");
+		}
+	}
+	
+	@Test
+	public void testUpdate() {
+		Optional<Usuario> usuario = repository.findById(1L);
+		Usuario user = usuario.get();
+		
+		user.setUsername("BemiasSilvaJunior");
+		
+		repository.save(user);
+	}
+	
+	@Test
+	public void testDelete() {
+		Optional<Usuario> usuario = repository.findById(5L);
+
+		repository.delete(usuario.get());
+		//repository.deleteById(3L);
 	}
 }
