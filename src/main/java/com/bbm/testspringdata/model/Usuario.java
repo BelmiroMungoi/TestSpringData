@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -22,6 +23,9 @@ public class Usuario {
 
 	@OneToMany(mappedBy = "usuario", orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Telefone> telefone;
+
+	@ManyToMany
+	private List<Projecto> projectos;
 
 	public Long getId() {
 		return id;
@@ -69,6 +73,14 @@ public class Usuario {
 
 	public void setTelefone(List<Telefone> telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Projecto> getProjectos() {
+		return projectos;
+	}
+
+	public void setProjectos(List<Projecto> projectos) {
+		this.projectos = projectos;
 	}
 
 	@Override
