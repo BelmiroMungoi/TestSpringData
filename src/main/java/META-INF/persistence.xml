@@ -6,5 +6,6 @@
 	<persistence-unit name="TestSpringData">
 		<class>com.bbm.testspringdata.model.Usuario</class>
 		<class>com.bbm.testspringdata.model.Telefone</class>
+		<class>com.bbm.testspringdata.model.Projecto</class>
 	</persistence-unit>
 </persistence>
