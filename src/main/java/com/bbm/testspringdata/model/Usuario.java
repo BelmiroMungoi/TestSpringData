@@ -2,11 +2,14 @@ package com.bbm.testspringdata.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -24,7 +27,10 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Telefone> telefone;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "usuario_proj",
+				joinColumns={@JoinColumn(name = "usuario_id")},
+				inverseJoinColumns= {@JoinColumn(name = "projecto_id")})
 	private List<Projecto> projectos;
 
 	public Long getId() {
